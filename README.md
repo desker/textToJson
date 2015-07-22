@@ -4,7 +4,8 @@
 
 ###Общие замечания.
 1. Bower.
-2. Используем UMD (Universal Module Definition)
+2. require.js 
+3. Используем UMD (Universal Module Definition)
 3. Тесты на jasmine
 
 
