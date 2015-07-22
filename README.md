@@ -157,7 +157,7 @@ There are many variations of passages of Lorem Ipsum available.\n
  *Результат*
  ``` json
  [
-    ["Lorem", {"tag":"mention", "value": "Сергей Иванов", id:"1234"} , 
+    ["Lorem", {"tag":"mention", "value": "Сергей Иванов", "id":"1234"} , 
     {"tag":"mention", "value": "Наименование группы", "id":"1234", "isGroup": true} , "." ]
  ]
 ``` 
