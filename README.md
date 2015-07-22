@@ -164,3 +164,19 @@ There are many variations of passages of Lorem Ipsum available.\n
 ``` 
 
 
+####  Смайлы.
+Классу будет передаваться массив с кодами смайлов. Например: [":name_of_smile:",  ":)"  ,";)"]
+
+
+ *Входящие данные*
+ ```
+Lorem :name_of_smile: dummy text of the printing.\n
+
+ ```
+ *Результат*
+ ``` json
+ [
+    ["Lorem ", {"tag":"smile", "value": ":name_of_smile:"}, " dummy text of the printing."]
+ ]
+``` 
+
