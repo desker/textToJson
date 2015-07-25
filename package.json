@@ -18,10 +18,12 @@
   "homepage": "https://github.com/desker/textToJson",
   "devDependencies": {
     "gulp": "^3.9.0",
+    "gulp-jasmine-phantom": "^1.3.3",
     "gulp-load-plugins": "^1.0.0-rc.1",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.2.0",
     "gulp-umd": "^0.2.0",
-    "gulp-webserver": "^0.9.1"
+    "gulp-webserver": "^0.9.1",
+    "requirejs": "^2.1.19"
   }
 }

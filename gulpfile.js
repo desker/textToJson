@@ -12,7 +12,7 @@ gulp.task('server', function() {
 });
 
 gulp.task('build', function() {
-  gulp.src('./src/textToJson.js')
+  return gulp.src('./src/textToJson.js')
     .pipe($.umd())
     .pipe(gulp.dest('./lib'))
     .pipe($.uglify())
@@ -20,8 +20,18 @@ gulp.task('build', function() {
     .pipe(gulp.dest('./lib'));
 });
 
-gulp.task('watch', ['build'], function(){
+gulp.task('watch', ['build', 'test-jasmine'], function(){
   gulp.watch('./src/textToJson.js', ['build']);
+});
+
+gulp.task('test-jasmine', function() {
+  return gulp.src('./spec/test.js')
+      .pipe($.jasminePhantom({
+          //integration: true,
+          keepRunner: true,
+          includeStackTrace: true,
+          vendor: ['lib/textToJson.js']
+      }));
 });
 
 gulp.task('default', ['server', 'watch']);

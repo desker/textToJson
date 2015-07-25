@@ -4,6 +4,10 @@ function isObject(val) {
   return typeof(val)==='object';
 }
 
+function isString(val) {
+  return typeof(val)==='string';
+}
+
 function isArray(val) {
   return Array.isArray(val);
 }
@@ -47,6 +51,8 @@ function parseItalic(line) {
     result.push(item);
   });
 
+  if (result.length===1) result = result[0];
+
   return result;
 }
 
@@ -72,6 +78,8 @@ function parseLine(line) {
     });
   }
 
+  if (result.length===1) result = result[0];
+
   return result;
 }
 
@@ -85,8 +93,8 @@ function TextToJson(text) {
     if (line==='') {
       if (!isObject(lastInsert) || lastInsert.tag!=='br') {
         lines2.push({ tag: 'br' });
-      
-}      return;
+      }
+      return;
     }
 
     if (line==='...') {
@@ -125,10 +133,12 @@ function TextToJson(text) {
         }
       }
     }
+
   });
 
   //console.dir(lines2);
-  document.write(JSON.stringify(lines2));
+  //document.write(JSON.stringify(lines2));
+  //
 
   return lines2;
 
