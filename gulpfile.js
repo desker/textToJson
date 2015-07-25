@@ -16,7 +16,7 @@ gulp.task('build', function() {
     .pipe($.umd())
     .pipe(gulp.dest('./lib'))
     .pipe($.uglify())
-    .pipe($.rename({ suffix: 'min' }))
+    .pipe($.rename({ suffix: '.min' }))
     .pipe(gulp.dest('./lib'));
 });
 
