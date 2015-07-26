@@ -91,7 +91,7 @@ function TextToJson(text) {
     var lastInsert = lines2[lines2.length-1];
 
     if (line==='') {
-      if (!isObject(lastInsert) || lastInsert.tag!=='br') {
+      if (!isObject(lastInsert) || lastInsert.tag!=='br' && i!==lines.length-1) {
         lines2.push({ tag: 'br' });
       }
       return;
@@ -118,7 +118,7 @@ function TextToJson(text) {
 
   });
 
-  lines2.map(function(item, i) {
+  /*lines2.map(function(item, i) {
     if (isObject(item) && item.tag==='blockquote') {
       if (isArray(item.value)) {
         if (item.value.length===1) {
@@ -134,7 +134,7 @@ function TextToJson(text) {
       }
     }
 
-  });
+  });*/
 
   //console.dir(lines2);
   //document.write(JSON.stringify(lines2));
