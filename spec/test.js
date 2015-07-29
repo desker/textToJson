@@ -94,6 +94,13 @@ describe('textToJson', function(){
 
     });
 
+    it('Hash tag', function() {
+      expect(TextToJson('Lorem #Ipsum, #Photo.\n'))
+        .toEqual( [
+    ["Lorem", {"tag":"hash", "value": "Ipsum"}, ", " , {"tag":"hash", "value": "Photo"} , "." ]
+ ]);
+    });
+
 });
 
 
