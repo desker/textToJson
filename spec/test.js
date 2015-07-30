@@ -97,16 +97,24 @@ describe('textToJson', function(){
     it('Hash tag', function() {
       expect(TextToJson('Lorem #Ipsum, #Photo.\n'))
         .toEqual( [
-    ["Lorem ", {"tag":"hash", "value": "Ipsum"}, ", " , {"tag":"hash", "value": "Photo"} , "." ]
- ]);
+            ["Lorem ", {"tag":"hash", "value": "Ipsum"}, ", " , {"tag":"hash", "value": "Photo"} , "." ]
+         ]);
     });
 
     it("Smiles", function() {
       expect(TextToJson('Lorem :name_of_smile: dummy text of the printing.\n', [":name_of_smile:", ":)" ,";)"]))
         .toEqual([
-    ["Lorem ", {"tag":"smile", "value": ":name_of_smile:"}, " dummy text of the printing."]
- ]);
+          ["Lorem ", {"tag":"smile", "value": ":name_of_smile:"}, " dummy text of the printing."]
+        ]);
 
+    });
+
+    it("Mentions", function() {
+      expect(TextToJson("Lorem @id1234(Сергей Иванов), @idg1234(Наименование группы).\n"))
+        .toEqual([
+    ["Lorem ", {"tag":"mention", "value": "Сергей Иванов", "id":"1234"} , ", ", 
+    {"tag":"mention", "value": "Наименование группы", "id":"1234", "isGroup": true} , "." ]
+ ]);
     });
 
 });

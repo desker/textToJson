@@ -78,7 +78,53 @@ Parser.prototype = {
         this.lines[i] = result;
       }
     }
-    console.log(this.lines);
+  },
+
+  mentions: function() {
+    var regexp = /@id(g?)([\d]+)\(([\S\s]+?)\)/g;
+
+//    var res = ">Lorem @id1234(Сергей Иванов), @idg1234(Наименование группы).\n".match(regexp);
+    
+    for (var i=0; i<this.lines.length; i++) {
+      var line = this.lines[i],
+          result = [];
+
+      line.map(function(item, n) {
+        if (!isString(item)) {
+          result.push(item);
+          return;
+        }
+
+        var found = [],
+            str = item,
+            res;
+        while ((res = regexp.exec(item)) != null) {
+          found.push(res);
+        }
+
+        if (found.length===0) {
+          result.push(item);
+          return;
+        }
+
+        for (var j = 0; j < found.length; j++) {
+          var arr = str.split(found[j][0]);
+          result.push(arr[0]);
+          var mention = {
+            tag: 'mention',
+            value: found[j][3],
+            id: found[j][2]
+          };
+
+          if (found[j][1]==='g') mention.isGroup = true;
+
+          result.push(mention);
+          str = arr[1];
+        };
+        result.push(str);
+      });
+      this.lines[i] = result;
+    }
   },
 
   line: function() {
@@ -129,6 +175,8 @@ function TextToJson(text, smiles) {
   parse.tag('b', /\*\*([\S\s]+?)\*\*/g, '**');
   parse.tag('i', /\*([\S\s]+?)\*/g, '*');
   parse.tag('hash', /\#([\S][^.,]+)/g, '#');
+
+  parse.mentions();
 
   if (smiles) {
     parse.smiles(smiles);
