@@ -12,20 +12,14 @@ function isArray(val) {
   return Array.isArray(val);
 }
 
-function Parser(text, smiles) {
-  this.smiles = smiles;
+function Parser(text) {
   this.init(text);
 }
 
 Parser.prototype = {
   init: function(text) {
     this.lines = text.split("\n").map(function(item) { return [ item ]; });
-    this.tag('b', /\*\*([\S\s]+?)\*\*/g, '**');
-    this.tag('i', /\*([\S\s]+?)\*/g, '*');
-    this.tag('hash', /\#([\S][^.,]+)/g, '#');
 
-    this.line();
-    //this.tag('smile', new RegExp("(["+this.smiles.join('|')+"])"), "g");
   },
 
   tag: function(tag, regexp, splitter) {
@@ -59,6 +53,34 @@ Parser.prototype = {
     }
   },
 
+  smiles: function(list) {
+    for (var j = 0; j < list.length; j++) {
+      var smile = list[j];
+
+      for (var i=0; i<this.lines.length; i++) {
+        var line = this.lines[i],
+            result = [];
+
+        line.map(function(item) {
+          if (!isString(item)) {
+            result.push(item);
+            return;
+          }
+
+          item = item.split(smile);
+
+          item.map(function(str, n) {
+            if (str!=='') result.push(str);
+            if (n!==item.length-1) result.push({ tag: 'smile', value: smile });
+          });
+        });
+
+        this.lines[i] = result;
+      }
+    }
+    console.log(this.lines);
+  },
+
   line: function() {
     var result = [],
         self = this;
@@ -78,7 +100,7 @@ Parser.prototype = {
       if (line.length>0 && (line[0]==='>' || (line[0][0] && line[0][0]==='>'))) {
         if (isString(line)) line = line.substr(1);
         else line[0] = line[0].substr(1);
-        console.log(lastInsert);
+        
         if (isObject(lastInsert) && lastInsert.tag==='blockquote') {
           result[result.length-1].value.push(line);
         } else {
@@ -98,14 +120,21 @@ Parser.prototype = {
       result.push(line);
     });
 
-    console.log(result);
     this.lines = result;
   }
 };
 
-function TextToJson(text) {
+function TextToJson(text, smiles) {
   var parse = new Parser(text);
-  console.dir(parse.lines);
+  parse.tag('b', /\*\*([\S\s]+?)\*\*/g, '**');
+  parse.tag('i', /\*([\S\s]+?)\*/g, '*');
+  parse.tag('hash', /\#([\S][^.,]+)/g, '#');
+
+  if (smiles) {
+    parse.smiles(smiles);
+  }
+
+  parse.line();
 
   return parse.lines;
 };

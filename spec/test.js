@@ -101,6 +101,14 @@ describe('textToJson', function(){
  ]);
     });
 
+    it("Smiles", function() {
+      expect(TextToJson('Lorem :name_of_smile: dummy text of the printing.\n', [":name_of_smile:", ":)" ,";)"]))
+        .toEqual([
+    ["Lorem ", {"tag":"smile", "value": ":name_of_smile:"}, " dummy text of the printing."]
+ ]);
+
+    });
+
 });
 
 
